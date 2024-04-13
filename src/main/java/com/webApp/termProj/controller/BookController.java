@@ -68,4 +68,23 @@ public class BookController {
         return ResponseEntity.ok().body(response);
 
     }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteBook(@RequestBody BookDTO bookDTO) {
+        try {
+            String temporaryUserId = "JinKyungHan";
+            BookEntity entity = BookDTO.toEntity(bookDTO);
+            entity.setUserId(temporaryUserId);
+            List<BookEntity> entities = bookService.delete(entity);
+
+            List<BookDTO> dtos = entities.stream().map(BookDTO::new).collect(Collectors.toList());
+
+            ResponseDTO<BookDTO> response = ResponseDTO.<BookDTO>builder().data(dtos).build();
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            String error = e.getMessage();
+            ResponseDTO<BookDTO> response = ResponseDTO.<BookDTO>builder().error(error).build();
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 }

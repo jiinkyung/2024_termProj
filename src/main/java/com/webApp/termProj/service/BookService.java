@@ -43,6 +43,19 @@ public class BookService {
         return search(bookEntity);
     }
 
+    public List<BookEntity> delete(final BookEntity bookEntity) {
+        validate(bookEntity);
+
+        try {
+            bookRepository.delete(bookEntity);
+        } catch (Exception e) {
+            log.error("error deleting entity ", bookEntity.getId(), e);
+
+            throw new RuntimeException("error deleting entity " + bookEntity.getId());
+        }
+        return bookRepository.findAll();
+    }
+
     private void validate(final BookEntity entity) {
         if (entity == null) {
             log.warn("Entity cannot be null");
