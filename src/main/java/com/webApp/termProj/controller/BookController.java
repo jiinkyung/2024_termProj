@@ -5,6 +5,7 @@ import com.webApp.termProj.dto.BookRequestDTO;
 import com.webApp.termProj.dto.ResponseDTO;
 import com.webApp.termProj.model.BookEntity;
 import com.webApp.termProj.service.BookService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -52,5 +53,19 @@ public class BookController {
         List<BookDTO> dtos = entities.stream().map(BookDTO::new).collect(Collectors.toList());
         ResponseDTO<BookDTO> response = ResponseDTO.<BookDTO>builder().data(dtos).build();
         return ResponseEntity.ok().body(response);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateBook(@RequestBody BookDTO bookDto) {
+        String temporaryUserId = "JinKyungHan";
+
+        BookEntity entity = BookDTO.toEntity(bookDto);
+        entity.setUserId(temporaryUserId);
+
+        List<BookEntity> entities = bookService.update(entity);
+        List<BookDTO> dtos = entities.stream().map(BookDTO::new).collect(Collectors.toList());
+        ResponseDTO<BookDTO> response = ResponseDTO.<BookDTO>builder().data(dtos).build();
+        return ResponseEntity.ok().body(response);
+
     }
 }
