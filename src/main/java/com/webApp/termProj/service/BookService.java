@@ -23,6 +23,10 @@ public class BookService {
         return bookRepository.findByUserId(bookEntity.getUserId());
     }
 
+    public List<BookEntity> search(final BookEntity bookEntity) {
+        return bookRepository.findByTitle(bookEntity.getTitle());
+    }
+
     private void validate(final BookEntity entity) {
         if (entity == null) {
             log.warn("Entity cannot be null");
