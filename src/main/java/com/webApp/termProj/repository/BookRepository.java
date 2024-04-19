@@ -9,7 +9,5 @@ import java.util.List;
 
 @Repository
 public interface BookRepository extends JpaRepository<BookEntity, String> {
-
-    List<BookEntity> findByUserId(String userId);
     List<BookEntity> findByTitle(String title);
 }
