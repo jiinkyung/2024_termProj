@@ -19,6 +19,7 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
+    // 제품 정보 추가
     @PostMapping
     public ResponseEntity<?> createBook(@RequestBody BookDTO bookDTO) {
         try{
@@ -38,6 +39,7 @@ public class BookController {
         }
     }
 
+    // 제품 정보 검색
     @GetMapping
     public ResponseEntity<?> searchBook(@RequestBody BookTitleDTO bookRequestDTO) {
 
@@ -49,6 +51,7 @@ public class BookController {
         return ResponseEntity.ok().body(response);
     }
 
+    // 제품 정보 수정
     @PutMapping
     public ResponseEntity<?> updateBook(@RequestBody BookDTO bookDto) {
         String temporaryUserId = "JinKyungHan";
@@ -63,12 +66,11 @@ public class BookController {
 
     }
 
+    // 제품 정보 삭제
     @DeleteMapping
     public ResponseEntity<?> deleteBook(@RequestBody BookDTO bookDTO) {
         try {
-            String temporaryUserId = "JinKyungHan";
             BookEntity entity = BookDTO.toEntity(bookDTO);
-            entity.setUserId(temporaryUserId);
             List<BookEntity> entities = bookService.delete(entity);
 
             List<BookDTO> dtos = entities.stream().map(BookDTO::new).collect(Collectors.toList());
