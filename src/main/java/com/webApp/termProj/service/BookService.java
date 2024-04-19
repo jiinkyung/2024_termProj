@@ -16,6 +16,7 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    // 제품 정보 추가
     public List<BookEntity> create(final BookEntity bookEntity) {
         validate(bookEntity);
 
@@ -24,10 +25,12 @@ public class BookService {
         return bookRepository.findAll();
     }
 
+    // 제품 정보 검색
     public List<BookEntity> search(final BookEntity bookEntity) {
         return bookRepository.findByTitle(bookEntity.getTitle());
     }
 
+    // 제품 정보 수정
     public List<BookEntity> update(final BookEntity bookEntity) {
         validate(bookEntity);
 
@@ -42,6 +45,7 @@ public class BookService {
         return search(bookEntity);
     }
 
+    // 제품 정보 삭제
     public List<BookEntity> delete(final BookEntity bookEntity) {
 
         validate(bookRepository.findById(bookEntity.getId()));
