@@ -23,12 +23,7 @@ public class BookController {
     @PostMapping
     public ResponseEntity<?> createBook(@RequestBody BookDTO bookDTO) {
         try{
-            String temporaryUserId = "JinKyungHan";
-
             BookEntity entity = BookDTO.toEntity(bookDTO);
-
-            entity.setId(null);
-            entity.setUserId(temporaryUserId);
 
             List<BookEntity> entities = bookService.create(entity);
 
