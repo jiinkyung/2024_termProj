@@ -24,5 +24,6 @@ public class BookEntity {
     private String id;
     private String userId;
     private String title;
+    private String author;
     private String publisher;
 }
