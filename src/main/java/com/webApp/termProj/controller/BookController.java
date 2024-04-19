@@ -54,10 +54,8 @@ public class BookController {
     // 제품 정보 수정
     @PutMapping
     public ResponseEntity<?> updateBook(@RequestBody BookDTO bookDto) {
-        String temporaryUserId = "JinKyungHan";
 
         BookEntity entity = BookDTO.toEntity(bookDto);
-        entity.setUserId(temporaryUserId);
 
         List<BookEntity> entities = bookService.update(entity);
         List<BookDTO> dtos = entities.stream().map(BookDTO::new).collect(Collectors.toList());
