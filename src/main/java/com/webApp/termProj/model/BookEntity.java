@@ -22,7 +22,7 @@ public class BookEntity {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
-    private String title;
     private String userId;
+    private String title;
     private String publisher;
 }

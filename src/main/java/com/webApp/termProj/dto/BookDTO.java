@@ -12,23 +12,23 @@ import lombok.NoArgsConstructor;
 @Data
 public class BookDTO {
     String id;
+    String userId;
     String title;
     String publisher;
-    String userId;
 
     public BookDTO(final BookEntity bookEntity) {
         this.id = bookEntity.getId();
+        this.userId = bookEntity.getUserId();
         this.title = bookEntity.getTitle();
         this.publisher = bookEntity.getPublisher();
-        this.userId = bookEntity.getUserId();
     }
 
     public static BookEntity toEntity(final BookDTO bookDTO) {
         return BookEntity.builder()
                 .id(bookDTO.getId())
+                .userId(bookDTO.getUserId())
                 .title(bookDTO.getTitle())
                 .publisher(bookDTO.getPublisher())
-                .userId(bookDTO.getUserId())
                 .build();
     }
 
