@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +21,7 @@ public class BookService {
 
         bookRepository.save(bookEntity);
 
-        return bookRepository.findByUserId(bookEntity.getUserId());
+        return bookRepository.findAll();
     }
 
     public List<BookEntity> search(final BookEntity bookEntity) {
@@ -44,7 +43,8 @@ public class BookService {
     }
 
     public List<BookEntity> delete(final BookEntity bookEntity) {
-        validate(bookEntity);
+
+        validate(bookRepository.findById(bookEntity.getId()));
 
         try {
             bookRepository.delete(bookEntity);
@@ -63,6 +63,18 @@ public class BookService {
         }
 
         if (entity.getUserId() == null) {
+            log.warn("Unknown user");
+            throw new RuntimeException("Unknown user");
+        }
+    }
+
+    private void validate(final Optional<BookEntity> entity) {
+        if (entity == null) {
+            log.warn("Entity cannot be null");
+            throw new RuntimeException("Entity cannot be null");
+        }
+
+        if (entity.get().getUserId() == null) {
             log.warn("Unknown user");
             throw new RuntimeException("Unknown user");
         }
