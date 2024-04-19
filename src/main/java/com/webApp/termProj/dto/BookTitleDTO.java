@@ -10,14 +10,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class BookRequestDTO {
+public class BookTitleDTO {
     String title;
 
-    public BookRequestDTO(final BookEntity bookEntity) {
+    public BookTitleDTO(final BookEntity bookEntity) {
         this.title = bookEntity.getTitle();
     }
 
-    public static BookEntity toEntity(final BookRequestDTO bookRequestDTO) {
+    public static BookEntity toEntity(final BookTitleDTO bookRequestDTO) {
         return BookEntity.builder()
                 .title(bookRequestDTO.getTitle())
                 .build();

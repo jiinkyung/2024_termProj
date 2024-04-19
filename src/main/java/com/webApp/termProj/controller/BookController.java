@@ -1,11 +1,10 @@
 package com.webApp.termProj.controller;
 
 import com.webApp.termProj.dto.BookDTO;
-import com.webApp.termProj.dto.BookRequestDTO;
+import com.webApp.termProj.dto.BookTitleDTO;
 import com.webApp.termProj.dto.ResponseDTO;
 import com.webApp.termProj.model.BookEntity;
 import com.webApp.termProj.service.BookService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,9 +39,9 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<?> searchBook(@RequestBody BookRequestDTO bookRequestDTO) {
+    public ResponseEntity<?> searchBook(@RequestBody BookTitleDTO bookRequestDTO) {
 
-        BookEntity entity = BookRequestDTO.toEntity(bookRequestDTO);
+        BookEntity entity = BookTitleDTO.toEntity(bookRequestDTO);
 
         List<BookEntity> entities = bookService.search(entity);
         List<BookDTO> dtos = entities.stream().map(BookDTO::new).collect(Collectors.toList());
