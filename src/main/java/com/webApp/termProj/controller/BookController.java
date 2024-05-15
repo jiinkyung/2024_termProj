@@ -1,7 +1,6 @@
 package com.webApp.termProj.controller;
 
 import com.webApp.termProj.dto.BookDTO;
-import com.webApp.termProj.dto.BookTitleDTO;
 import com.webApp.termProj.dto.ResponseDTO;
 import com.webApp.termProj.model.BookEntity;
 import com.webApp.termProj.service.BookService;
@@ -41,11 +40,11 @@ public class BookController {
 
     // 제품 정보 검색
     @GetMapping
-    public ResponseEntity<?> searchBook(@RequestBody BookTitleDTO bookRequestDTO) {
+    public ResponseEntity<?> searchBook(@RequestParam String title) {
 
-        BookEntity entity = BookTitleDTO.toEntity(bookRequestDTO);
+        //BookEntity entity = BookTitleDTO.toEntity(bookRequestDTO);
 
-        List<BookEntity> entities = bookService.search(entity);
+        List<BookEntity> entities = bookService.search(title);
         List<BookDTO> dtos = entities.stream().map(BookDTO::new).collect(Collectors.toList());
         ResponseDTO<BookDTO> response = ResponseDTO.<BookDTO>builder().data(dtos).build();
         return ResponseEntity.ok().body(response);
