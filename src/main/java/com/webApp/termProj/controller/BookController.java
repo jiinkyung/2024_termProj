@@ -80,4 +80,14 @@ public class BookController {
             return ResponseEntity.badRequest().body(response);
         }
     }
+    
+    // 제품 전체 조회
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllBook() {
+
+        List<BookEntity> entities = bookService.getAll();
+        List<BookDTO> dtos = entities.stream().map(BookDTO::new).collect(Collectors.toList());
+        ResponseDTO<BookDTO> response = ResponseDTO.<BookDTO>builder().data(dtos).build();
+        return ResponseEntity.ok().body(response);
+    }
 }
