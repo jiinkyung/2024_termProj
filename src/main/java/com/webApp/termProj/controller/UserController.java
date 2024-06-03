@@ -3,6 +3,7 @@ package com.webApp.termProj.controller;
 import com.webApp.termProj.dto.ResponseDTO;
 import com.webApp.termProj.dto.UserDTO;
 import com.webApp.termProj.model.UserEntity;
+import com.webApp.termProj.security.TokenProvider;
 import com.webApp.termProj.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,13 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private TokenProvider tokenProvider;
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
         try {
-            if(userDTO == null || userDTO.getPassword() == null) {
+            if (userDTO == null || userDTO.getPassword() == null) {
                 throw new RuntimeException("Invalid Password value.");
             }
 
@@ -51,15 +54,18 @@ public class UserController {
                     .body(responseDTO);
         }
     }
+
     @PostMapping("/signin")
     public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
         UserEntity user = userService.getByCredentials(
                 userDTO.getUsername(),
                 userDTO.getPassword());
         if (user != null) {
+            final String token = tokenProvider.create(user);
             final UserDTO responseUserDTO = UserDTO.builder()
                     .username(user.getUsername())
                     .id(user.getId())
+                    .token(token)
                     .build();
             return ResponseEntity.ok().body(responseUserDTO);
         } else {
