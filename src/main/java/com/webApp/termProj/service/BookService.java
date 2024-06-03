@@ -16,6 +16,11 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    // 전제 제품 정보
+    public List<BookEntity> getAll() {
+        return bookRepository.findAll();
+    }
+
     // 제품 정보 추가
     public List<BookEntity> create(final BookEntity bookEntity) {
         validate(bookEntity);
@@ -26,8 +31,8 @@ public class BookService {
     }
 
     // 제품 정보 검색
-    public List<BookEntity> search(final BookEntity bookEntity) {
-        return bookRepository.findByTitle(bookEntity.getTitle());
+    public List<BookEntity> search(final String title) {
+        return bookRepository.findByTitle(title);
     }
 
     // 제품 정보 수정
@@ -38,20 +43,22 @@ public class BookService {
 
         original.ifPresent(book -> {
             book.setTitle(bookEntity.getTitle());
-
+            book.setAuthor(bookEntity.getAuthor());
+            book.setPublisher(bookEntity.getPublisher());
+            book.setUserId(bookEntity.getUserId());
             bookRepository.save(book);
         });
 
-        return search(bookEntity);
+        return getAll();
     }
 
     // 제품 정보 삭제
     public List<BookEntity> delete(final BookEntity bookEntity) {
 
-        validate(bookRepository.findById(bookEntity.getId()));
+        List<BookEntity> entities = bookRepository.findByTitle(bookEntity.getTitle());
 
         try {
-            bookRepository.delete(bookEntity);
+            bookRepository.deleteById(entities.get(0).getId());
         } catch (Exception e) {
             log.error("error deleting entity ", bookEntity.getId(), e);
 

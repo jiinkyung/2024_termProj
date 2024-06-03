@@ -21,7 +21,7 @@ public class BookController {
     // 제품 정보 추가
     @PostMapping
     public ResponseEntity<?> createBook(@RequestBody BookDTO bookDTO) {
-        try{
+        try {
             BookEntity entity = BookDTO.toEntity(bookDTO);
 
             List<BookEntity> entities = bookService.create(entity);
@@ -41,8 +41,6 @@ public class BookController {
     // 제품 정보 검색
     @GetMapping
     public ResponseEntity<?> searchBook(@RequestParam String title) {
-
-        //BookEntity entity = BookTitleDTO.toEntity(bookRequestDTO);
 
         List<BookEntity> entities = bookService.search(title);
         List<BookDTO> dtos = entities.stream().map(BookDTO::new).collect(Collectors.toList());
