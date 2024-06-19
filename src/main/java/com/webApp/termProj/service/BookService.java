@@ -16,6 +16,16 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    public void updateLikeStatus(final BookEntity bookEntity) throws Exception {
+        BookEntity book = bookRepository.findById(bookEntity.getId()).orElseThrow(() -> new Exception("Book not found"));
+        book.setLiked(!book.isLiked());
+        bookRepository.save(book);
+    }
+
+    public List<BookEntity> getLikedBooks() {
+        return bookRepository.findByLiked(true);
+    }
+
     // 전제 제품 정보
     public List<BookEntity> getAll() {
         return bookRepository.findAll();
@@ -31,7 +41,7 @@ public class BookService {
     }
 
     // 제품 정보 검색
-    public List<BookEntity> search(final String title) {
+    public BookEntity search(final String title) {
         return bookRepository.findByTitle(title);
     }
 
@@ -55,10 +65,10 @@ public class BookService {
     // 제품 정보 삭제
     public List<BookEntity> delete(final BookEntity bookEntity) {
 
-        List<BookEntity> entities = bookRepository.findByTitle(bookEntity.getTitle());
+        BookEntity entities = bookRepository.findByTitle(bookEntity.getTitle());
 
         try {
-            bookRepository.deleteById(entities.get(0).getId());
+            bookRepository.deleteById(entities.getId());
         } catch (Exception e) {
             log.error("error deleting entity ", bookEntity.getId(), e);
 
@@ -78,17 +88,4 @@ public class BookService {
             throw new RuntimeException("Unknown user");
         }
     }
-
-    private void validate(final Optional<BookEntity> entity) {
-        if (entity == null) {
-            log.warn("Entity cannot be null");
-            throw new RuntimeException("Entity cannot be null");
-        }
-
-        if (entity.get().getUserId() == null) {
-            log.warn("Unknown user");
-            throw new RuntimeException("Unknown user");
-        }
-    }
-
 }

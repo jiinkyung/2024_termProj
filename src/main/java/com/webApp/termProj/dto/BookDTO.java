@@ -16,6 +16,7 @@ public class BookDTO {
     String title;
     String author;
     String publisher;
+    boolean liked;
 
     public BookDTO(final BookEntity bookEntity) {
         this.id = bookEntity.getId();
@@ -23,6 +24,7 @@ public class BookDTO {
         this.title = bookEntity.getTitle();
         this.author = bookEntity.getAuthor();
         this.publisher = bookEntity.getPublisher();
+        this.liked = bookEntity.isLiked();
     }
 
     public static BookEntity toEntity(final BookDTO bookDTO) {
@@ -32,6 +34,7 @@ public class BookDTO {
                 .title(bookDTO.getTitle())
                 .author(bookDTO.getAuthor())
                 .publisher(bookDTO.getPublisher())
+                .liked(bookDTO.isLiked())
                 .build();
     }
 
